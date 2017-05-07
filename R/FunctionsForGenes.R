@@ -1,6 +1,3 @@
-library("dplyr")
-library("Amelia")
-
 #' The checking the data clean
 #'
 #' @param x input dataframe
@@ -12,7 +9,7 @@ kasa.dataCleaning <- function(x){
   res$na<- sapply(x,function(y) sum(is.na(y)))
   res$unique <- sapply(x, function(y) length(unique(y)))
   res$dulplicated <- sapply(x, function(y) sum(duplicated(y)))
-  res$map <- missmap(x, main = "Missing values vs observed")
+  res$map <- Amelia::missmap(x, main = "Missing values vs observed")
   return(res)
 }
 
@@ -20,6 +17,7 @@ kasa.dataCleaning <- function(x){
 #'
 #' @param x input dataframe of gene matrix
 #' @return removed dataframe
+#' @import dplyr
 #' @export
 kasa.duplicationRemovalBySD <- function(x){
   matrix_data <- as.matrix(x[,-c(1)])
@@ -58,7 +56,7 @@ kasa.transposeMatrix <- function(x, firstColumnName="sample"){
 #' @return Matrix as median centered
 #' @export
 kasa.geneMedianCentering <- function(x){
-raw.data <- x[-1] %>% as.matrix()
+raw.data <- as.matrix(x[-1])
 median.table <- apply(raw.data ,c(1),median,na.rm = T)
 median_centered <- raw.data-median.table
 return(cbind(x[1],median_centered))
@@ -70,7 +68,7 @@ return(cbind(x[1],median_centered))
 #' @return Matrix with transformed NA values
 #' @export
 kasa.transform_na_to_median <- function(x) {
-raw.data <- x[-1] %>% as.matrix()
+raw.data <- as.matrix(x[-1])
 for (i in c(1:nrow(x))){
 temp.row <- raw.data[i,]
 median.temp <- median(temp.row,na.rm = T)
@@ -93,7 +91,7 @@ do.call(cbind, lapply(x, is.nan))}
 #' @return standarized genes
 #' @export
 kasa.geneStandardization <- function(x){
-raw.data <- x[-1] %>% as.matrix()
+raw.data <- as.matrix(x[-1])
 sd.table <- apply(raw.data,1,sd,na.rm = T)
 res.table_1 <- raw.data/sd.table # divided by standard deviation
 res <- cbind(x[1],res.table_1)
