@@ -16,10 +16,10 @@ kasa.instPak <- function(pkg){
 #' @return NULL
 #' @export
 kasa.instPak_bioc <- function(packages_bioc){
-  new.pkg <- packages_bioc[!(pkg_b %in% installed.packages()[, "Package"])]
+  new.pkg <- packages_bioc[!(packages_bioc %in% installed.packages()[, "Package"])]
   if (length(new.pkg)){
     source("https://bioconductor.org/biocLite.R")    
     biocLite(pkg=new.pkg,suppressUpdates=TRUE,suppressAutoUpdate=FALSE,ask=FALSE)
   }
-  sapply(pkg_b, require, character.only = TRUE)
+  sapply(packages_bioc, require, character.only = TRUE)
 }
