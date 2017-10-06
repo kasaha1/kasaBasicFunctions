@@ -11,8 +11,8 @@ kasa.matchingRow <- function(dataframeX=x,dataframeY=y,keycolX="sample",keycolY=
   colnames(dataframeY)[which( colnames(dataframeY)==keycolY )] <- "temp.join.key.Y"
   temp.join <- inner_join(dataframeX,dataframeY,by=c("temp.join.key.X"="temp.join.key.Y"))
   res <- list()
-  res[["dataframeX"]] <- temp.join[,1:ncol(dataframeX)]
-  res[["dataframeY"]] <- cbind(temp.join[,"temp.join.key.X"],temp.join[,(1+ncol(dataframeX)):ncol(temp.join)])
+  res[["dataframeX"]] <- temp.join[,1:ncol(dataframeX)] %>% as.data.frame()
+  res[["dataframeY"]] <- cbind(temp.join[,"temp.join.key.X"],temp.join[,(1+ncol(dataframeX)):ncol(temp.join)]) %>% as.data.frame()
   colnames(res$dataframeX)[which( colnames(res$dataframeX)== "temp.join.key.X")] <- keycolX
   colnames(res$dataframeY)[1] <- keycolY
   return(res)
