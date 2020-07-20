@@ -21,7 +21,7 @@ kasa.instPak_bioc <- function(packages_bioc){
   BiocManager::install()
   new.pkg <- packages_bioc[!(packages_bioc %in% installed.packages()[, "Package"])]
   if (length(new.pkg)){
-    BiocManager::install(pkg=new.pkg,suppressUpdates=TRUE,suppressAutoUpdate=FALSE,ask=FALSE)
+    BiocManager::install(pkg=new.pkg,update=FALSE,ask=FALSE)
   }
   sapply(packages_bioc, require, character.only = TRUE)
 }
