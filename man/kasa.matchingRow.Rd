@@ -4,8 +4,12 @@
 \alias{kasa.matchingRow}
 \title{Two dataset merging and devide into each sets}
 \usage{
-kasa.matchingRow(dataframeX = x, dataframeY = y, keycolX = "sample",
-  keycolY = "sample")
+kasa.matchingRow(
+  dataframeX = x,
+  dataframeY = y,
+  keycolX = "sample",
+  keycolY = "sample"
+)
 }
 \arguments{
 \item{dataframeX}{input the dataset X}

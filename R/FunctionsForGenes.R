@@ -98,3 +98,17 @@ res <- cbind(x[1],res.table_1)
 res[is.nan(res)] <- 0
 return(res)
 }
+
+#' gene z-scoring
+#'
+#' @param x input dataframe of gene matrix
+#' @return z-scored genes matrix
+#' @export
+kasa.geneZscoring <- function(x){
+  raw.data <- as.matrix(x[-1])
+  raw.data.t <- t(raw.data)
+  res.tmp <- scale(raw.data.t)
+  res.tmp.t <- t(res.tmp)
+  res <- cbind(x[1],res.tmp.t)
+  return(res)
+}
