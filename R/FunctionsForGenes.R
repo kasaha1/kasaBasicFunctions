@@ -112,3 +112,22 @@ kasa.geneZscoring <- function(x){
   res <- cbind(x[1],res.tmp.t)
   return(res)
 }
+
+#' gene Robust_modified z-scoring
+#'
+#' @param x input dataframe of gene matrix
+#' @return z-scored genes matrix
+#' @export
+kasa.geneRobustZscoring <- function(x){
+  raw.data <- as.matrix(x[-1])
+  median.table <- apply(raw.data ,c(1),median,na.rm = T)
+  median_centered_abs <- abs(raw.data-median.table)
+  MeanAD_tmp <- apply(median_centered_abs ,c(1),mean,na.rm = T)*1.253314
+  # MADtmp <- apply(median_centered_abs ,c(1),median,na.rm = T)
+  # res.tmp.1 <- (0.6744908*(raw.data-median.table))/MADtmp
+  MADtable <- apply(raw.data ,c(1),mad,na.rm = T)
+  MADtable[which(MADtable == 0)] <- MeanAD_tmp[which(MADtable == 0)] # replacing MAD==0 with meanAD
+  res.tmp <- (raw.data-median.table)/MADtable
+  res <- cbind(x[1],res.tmp)
+  return(res)
+}
